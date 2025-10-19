@@ -1,0 +1,5 @@
+<autofill-service xmlns:android="http://schemas.android.com/apk/res/android"
+    android:description="@string/autofill_description"
+    android:importantForAutofill="yes"
+    android:settingsActivity="me.mirimomekiku.safepass.SettingsActivity"
+    android:supportsInlineSuggestions="true" />

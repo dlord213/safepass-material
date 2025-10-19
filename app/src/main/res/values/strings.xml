@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">SafePass</string>
+    <string name="autofill_description">This is for autofill service\'s description, it\'ll be used for autofilling credentials.</string>
+</resources>
