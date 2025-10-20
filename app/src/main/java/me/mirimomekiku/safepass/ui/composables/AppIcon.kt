@@ -4,16 +4,13 @@ import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.BrokenImage
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import coil3.compose.rememberAsyncImagePainter
+import me.mirimomekiku.safepass.R
 
 @Composable
 fun AppIcon(packageName: String, modifier: Modifier = Modifier) {
@@ -35,11 +32,10 @@ fun AppIcon(packageName: String, modifier: Modifier = Modifier) {
             modifier = modifier.size(40.dp)
         )
     } else {
-        Icon(
-            imageVector = Icons.Default.BrokenImage,
+        Image(
+            painter = rememberAsyncImagePainter(model = R.drawable.question_mark_24px),
             contentDescription = "App not found",
             modifier = modifier.size(40.dp),
-            tint = MaterialTheme.colorScheme.onSurfaceVariant
         )
     }
 }

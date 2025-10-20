@@ -1,6 +1,7 @@
 package me.mirimomekiku.safepass.ui.screens
 
 import android.content.ClipData
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -10,9 +11,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.foundation.text.input.setTextAndPlaceCursorAtEnd
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.material.icons.filled.Refresh
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -33,9 +33,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalClipboard
 import androidx.compose.ui.platform.toClipEntry
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
+import me.mirimomekiku.safepass.R
 import me.mirimomekiku.safepass.helpers.Password
 import me.mirimomekiku.safepass.ui.composables.OptionSwitch
 import kotlin.math.roundToInt
@@ -91,8 +93,8 @@ fun GeneratorScreen() {
                     }
                 }
                 ) {
-                    Icon(
-                        imageVector = Icons.Filled.ContentCopy,
+                    Image(
+                        painter = painterResource(R.drawable.content_copy_24px),
                         contentDescription = "Copy generated password to clipboard"
                     )
                 }
@@ -174,7 +176,9 @@ fun GeneratorScreen() {
                         checked = useSymbols,
                         onCheckedChange = { useSymbols = it })
 
-                    Divider(modifier = Modifier.padding(vertical = 8.dp))
+                    HorizontalDivider(
+                        modifier = Modifier.padding(vertical = 8.dp),
+                    )
 
                     // Rule options
                     OptionSwitch(

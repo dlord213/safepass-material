@@ -228,27 +228,27 @@ fun AddWebsiteScreen() {
                     )
                 }
 
-                Column(
-                    verticalArrangement = Arrangement.spacedBy(12.dp),
-                ) {
-                    Text("Extras", style = MaterialTheme.typography.labelLarge)
-                    TextField(
-                        state = notesTextFieldState,
-                        label = { Text("Notes") },
-                        textStyle = MaterialTheme.typography.labelLarge,
-                        colors = TextFieldDefaults.colors(
-                            cursorColor = MaterialTheme.colorScheme.primary,
-                            disabledIndicatorColor = Color.Transparent,
-                            focusedIndicatorColor = Color.Transparent,
-                            unfocusedIndicatorColor = Color.Transparent
-                        ),
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        keyboardOptions = KeyboardOptions(
-                            imeAction = ImeAction.Done,
-                        ),
-                    )
-                }
+//                Column(
+//                    verticalArrangement = Arrangement.spacedBy(12.dp),
+//                ) {
+//                    Text("Extras", style = MaterialTheme.typography.labelLarge)
+//                    TextField(
+//                        state = notesTextFieldState,
+//                        label = { Text("Notes") },
+//                        textStyle = MaterialTheme.typography.labelLarge,
+//                        colors = TextFieldDefaults.colors(
+//                            cursorColor = MaterialTheme.colorScheme.primary,
+//                            disabledIndicatorColor = Color.Transparent,
+//                            focusedIndicatorColor = Color.Transparent,
+//                            unfocusedIndicatorColor = Color.Transparent
+//                        ),
+//                        modifier = Modifier
+//                            .fillMaxWidth(),
+//                        keyboardOptions = KeyboardOptions(
+//                            imeAction = ImeAction.Done,
+//                        ),
+//                    )
+//                }
                 Spacer(modifier = Modifier.weight(1f, fill = true))
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(12.dp),

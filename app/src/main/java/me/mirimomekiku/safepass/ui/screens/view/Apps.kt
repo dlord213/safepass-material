@@ -1,6 +1,7 @@
 package me.mirimomekiku.safepass.ui.screens.view
 
 import android.widget.Toast
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,8 +17,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.Visibility
-import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -36,6 +35,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -43,6 +43,7 @@ import androidx.navigation.NavBackStackEntry
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import me.mirimomekiku.safepass.R
 import me.mirimomekiku.safepass.db.AppDatabase
 import me.mirimomekiku.safepass.db.entity.AppCredentials
 import me.mirimomekiku.safepass.objects.CryptoUtil
@@ -202,20 +203,22 @@ fun ViewAppCredentialScreen(navBackStackEntry: NavBackStackEntry) {
                     textObfuscationMode = if (isPasswordShown) TextObfuscationMode.Visible else TextObfuscationMode.Hidden,
                     trailingIcon = {
                         IconButton(onClick = { isPasswordShown = !isPasswordShown }) {
-                            Icon(
-                                imageVector = if (isPasswordShown) Icons.Default.VisibilityOff else Icons.Default.Visibility,
+                            Image(
+                                painter = if (isPasswordShown) painterResource(R.drawable.visibility_off_24px) else painterResource(
+                                    R.drawable.visibility_24px
+                                ),
                                 contentDescription = "Toggle password visibility"
                             )
                         }
                     },
                     modifier = Modifier.fillMaxWidth(),
                 )
-                TextField(
-                    state = notesTextFieldState,
-                    enabled = if (isEditing) true else false,
-                    label = { Text("Notes (optional)") },
-                    modifier = Modifier.fillMaxWidth(),
-                )
+//                TextField(
+//                    state = notesTextFieldState,
+//                    enabled = if (isEditing) true else false,
+//                    label = { Text("Notes (optional)") },
+//                    modifier = Modifier.fillMaxWidth(),
+//                )
             }
 
             Spacer(modifier = Modifier.weight(1f))

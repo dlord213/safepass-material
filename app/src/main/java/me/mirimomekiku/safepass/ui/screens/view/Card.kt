@@ -270,18 +270,18 @@ fun ViewCardCredentialScreen(navBackStackEntry: NavBackStackEntry) {
                     )
                 }
 
-                TextField(
-                    state = notesTextFieldState,
-                    label = { Text("Notes (optional)") },
-                    textStyle = MaterialTheme.typography.labelLarge,
-                    colors = TextFieldDefaults.colors(
-                        cursorColor = MaterialTheme.colorScheme.primary,
-                        focusedIndicatorColor = Color.Transparent,
-                        unfocusedIndicatorColor = Color.Transparent
-                    ),
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                )
+//                TextField(
+//                    state = notesTextFieldState,
+//                    label = { Text("Notes (optional)") },
+//                    textStyle = MaterialTheme.typography.labelLarge,
+//                    colors = TextFieldDefaults.colors(
+//                        cursorColor = MaterialTheme.colorScheme.primary,
+//                        focusedIndicatorColor = Color.Transparent,
+//                        unfocusedIndicatorColor = Color.Transparent
+//                    ),
+//                    modifier = Modifier
+//                        .fillMaxWidth(),
+//                )
             }
 
             Spacer(modifier = Modifier.weight(1f))

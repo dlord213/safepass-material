@@ -1,6 +1,7 @@
 package me.mirimomekiku.safepass.ui.screens.add
 
 import android.widget.Toast
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -17,7 +18,6 @@ import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.foundation.text.input.setTextAndPlaceCursorAtEnd
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Apps
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -36,12 +36,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import me.mirimomekiku.safepass.R
 import me.mirimomekiku.safepass.db.AppDatabase
 import me.mirimomekiku.safepass.db.entity.AppCredentials
 import me.mirimomekiku.safepass.helpers.Password
@@ -168,7 +170,10 @@ fun AddAppScreen() {
                         readOnly = true,
                         trailingIcon = {
                             IconButton(onClick = { showAppPickerDialog = true }) {
-                                Icon(Icons.Default.Apps, "Select App")
+                                Image(
+                                    painter = painterResource(R.drawable.apps_24px),
+                                    contentDescription = "Select an application"
+                                )
                             }
                         },
                         colors = TextFieldDefaults.colors(
@@ -221,28 +226,27 @@ fun AddAppScreen() {
                         ),
                     )
                 }
-
-                Column(
-                    verticalArrangement = Arrangement.spacedBy(12.dp),
-                ) {
-                    Text("Extras", style = MaterialTheme.typography.labelLarge)
-                    TextField(
-                        state = notesTextFieldState,
-                        label = { Text("Notes") },
-                        textStyle = MaterialTheme.typography.labelLarge,
-                        colors = TextFieldDefaults.colors(
-                            cursorColor = MaterialTheme.colorScheme.primary,
-                            disabledIndicatorColor = Color.Transparent,
-                            focusedIndicatorColor = Color.Transparent,
-                            unfocusedIndicatorColor = Color.Transparent
-                        ),
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        keyboardOptions = KeyboardOptions(
-                            imeAction = ImeAction.Done,
-                        ),
-                    )
-                }
+//                Column(
+//                    verticalArrangement = Arrangement.spacedBy(12.dp),
+//                ) {
+//                    Text("Extras", style = MaterialTheme.typography.labelLarge)
+//                    TextField(
+//                        state = notesTextFieldState,
+//                        label = { Text("Notes") },
+//                        textStyle = MaterialTheme.typography.labelLarge,
+//                        colors = TextFieldDefaults.colors(
+//                            cursorColor = MaterialTheme.colorScheme.primary,
+//                            disabledIndicatorColor = Color.Transparent,
+//                            focusedIndicatorColor = Color.Transparent,
+//                            unfocusedIndicatorColor = Color.Transparent
+//                        ),
+//                        modifier = Modifier
+//                            .fillMaxWidth(),
+//                        keyboardOptions = KeyboardOptions(
+//                            imeAction = ImeAction.Done,
+//                        ),
+//                    )
+//                }
                 Spacer(modifier = Modifier.weight(1f, fill = true))
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(12.dp),

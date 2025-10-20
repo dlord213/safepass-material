@@ -23,6 +23,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import androidx.fragment.app.FragmentActivity
@@ -82,33 +83,46 @@ class MainActivity : FragmentActivity() {
                             val currentRoute = navBackStackEntry?.destination?.route
 
                             val navBarScreens =
-                                listOf(Screens.Safe, Screens.Generator, Screens.Settings)
+                                listOf(Screens.Safe, Screens.Generator)
 
                             if (currentRoute in navBarScreens.map { it.name }) {
                                 NavigationBar(
                                     windowInsets = NavigationBarDefaults.windowInsets,
                                     modifier = Modifier.clip(
                                         RoundedCornerShape(
-                                            topStart = 24.dp, topEnd = 24.dp
+                                            topStart = 24.dp,
+                                            topEnd = 24.dp
                                         )
                                     )
                                 ) {
-                                    Screens.entries.slice(0..1).forEachIndexed { index, screen ->
+                                    navBarScreens.forEachIndexed { index, screen ->
                                         NavigationBarItem(
                                             selected = currentScreen == index,
                                             onClick = {
-                                                navController.navigate(route = screen.name)
+                                                navController.navigate(route = screen.name) {
+                                                    popUpTo(navController.graph.startDestinationId) {
+                                                        saveState = true
+                                                    }
+                                                    launchSingleTop = true
+                                                    restoreState = true
+                                                }
                                                 currentScreen = index
                                             },
                                             icon = {
-                                                Icon(
-                                                    imageVector = screen.icon,
-                                                    contentDescription = screen.name
-                                                )
+                                                screen.iconVector?.let {
+                                                    Icon(
+                                                        imageVector = it,
+                                                        contentDescription = screen.name
+                                                    )
+                                                } ?: screen.drawableRes?.let {
+                                                    Icon(
+                                                        painterResource(id = it),
+                                                        contentDescription = screen.name
+                                                    )
+                                                }
                                             },
-                                            label = {
-                                                Text(screen.name)
-                                            })
+                                            label = { Text(screen.name) }
+                                        )
                                     }
                                 }
                             }

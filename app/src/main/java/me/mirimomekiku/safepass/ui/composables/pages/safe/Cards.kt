@@ -2,6 +2,8 @@ package me.mirimomekiku.safepass.ui.composables.pages.safe
 
 import androidx.activity.compose.LocalActivity
 import androidx.biometric.BiometricManager
+import androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_STRONG
+import androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL
 import androidx.biometric.BiometricPrompt
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -43,7 +45,7 @@ fun CardsPage(cardCredentials: List<CardCredentials>, modifier: Modifier = Modif
     val promptInfo = remember {
         BiometricPrompt.PromptInfo.Builder().setTitle("Authenticate to access credentials")
             .setSubtitle("To view credentials, authenticate.").setAllowedAuthenticators(
-                BiometricManager.Authenticators.BIOMETRIC_STRONG or BiometricManager.Authenticators.DEVICE_CREDENTIAL
+                BIOMETRIC_STRONG or DEVICE_CREDENTIAL
             ).build()
     }
 
@@ -74,14 +76,23 @@ fun CardsPage(cardCredentials: List<CardCredentials>, modifier: Modifier = Modif
             items(creds, key = { it.id }) { cred ->
                 FilledTonalButton(
                     onClick = {
-                        val prompt = BiometricPrompt(
-                            activity,
-                            executor,
-                            BiometricCallback(context) {
-                                navController.navigate("view_card/${cred.id}")
-                            })
+                        val biometricManager = BiometricManager.from(context)
+                        when (biometricManager.canAuthenticate(BIOMETRIC_STRONG or DEVICE_CREDENTIAL)) {
+                            BiometricManager.BIOMETRIC_SUCCESS -> {
+                                val prompt = BiometricPrompt(
+                                    activity,
+                                    executor,
+                                    BiometricCallback(context) {
+                                        navController.navigate("view_card/${cred.id}")
+                                    })
 
-                        prompt.authenticate(promptInfo)
+                                prompt.authenticate(promptInfo)
+                            }
+
+                            else -> {
+                                navController.navigate("view_card/${cred.id}")
+                            }
+                        }
                     },
                     modifier = Modifier.fillMaxWidth(),
                     shape = MaterialTheme.shapes.extraLarge,

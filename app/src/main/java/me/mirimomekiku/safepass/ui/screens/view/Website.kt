@@ -1,6 +1,7 @@
 package me.mirimomekiku.safepass.ui.screens.view
 
 import android.widget.Toast
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -17,8 +18,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.Visibility
-import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -38,6 +37,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextOverflow
@@ -47,6 +47,7 @@ import coil3.compose.AsyncImage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import me.mirimomekiku.safepass.R
 import me.mirimomekiku.safepass.db.AppDatabase
 import me.mirimomekiku.safepass.db.entity.WebsiteCredentials
 import me.mirimomekiku.safepass.objects.CryptoUtil
@@ -64,11 +65,11 @@ fun ViewWebsiteCredentialScreen(navBackStackEntry: NavBackStackEntry) {
     var isPasswordShown by remember { mutableStateOf(false) }
     var isEditing by remember { mutableStateOf(false) }
 
-    var labelTextFieldState = rememberTextFieldState()
-    var urlTextFieldState = rememberTextFieldState()
-    var usernameTextFieldState = rememberTextFieldState()
-    var passwordTextFieldState = rememberTextFieldState()
-    var notesTextFieldState = rememberTextFieldState()
+    val labelTextFieldState = rememberTextFieldState()
+    val urlTextFieldState = rememberTextFieldState()
+    val usernameTextFieldState = rememberTextFieldState()
+    val passwordTextFieldState = rememberTextFieldState()
+    val notesTextFieldState = rememberTextFieldState()
 
     LaunchedEffect(id) {
         val dao = AppDatabase.getDatabase(context).websiteCredentialsDao()
@@ -150,7 +151,7 @@ fun ViewWebsiteCredentialScreen(navBackStackEntry: NavBackStackEntry) {
         }
     }
 
-    fun deleteWebsite(id: Int) {
+    fun deleteWebsite() {
         screenScope.launch {
             val dao = AppDatabase.getDatabase(context).websiteCredentialsDao()
             withContext(Dispatchers.IO) {
@@ -184,7 +185,7 @@ fun ViewWebsiteCredentialScreen(navBackStackEntry: NavBackStackEntry) {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     IconButton(onClick = {
-                        deleteWebsite(credentials?.id!!)
+                        deleteWebsite()
                     }) {
                         Icon(
                             imageVector = Icons.Filled.Delete, contentDescription = "Delete"
@@ -311,17 +312,12 @@ fun ViewWebsiteCredentialScreen(navBackStackEntry: NavBackStackEntry) {
                         IconButton(onClick = {
                             isPasswordShown = !isPasswordShown
                         }) {
-                            if (isPasswordShown) {
-                                Icon(
-                                    imageVector = Icons.Default.VisibilityOff,
-                                    contentDescription = "Hide password"
-                                )
-                            } else {
-                                Icon(
-                                    imageVector = Icons.Default.Visibility,
-                                    contentDescription = "Show password"
-                                )
-                            }
+                            Image(
+                                painter = if (isPasswordShown) painterResource(R.drawable.visibility_off_24px) else painterResource(
+                                    R.drawable.visibility_24px
+                                ),
+                                contentDescription = "Toggle password visibility"
+                            )
                         }
                     },
                     textObfuscationMode = if (isPasswordShown) TextObfuscationMode.Visible else TextObfuscationMode.Hidden,
@@ -337,25 +333,25 @@ fun ViewWebsiteCredentialScreen(navBackStackEntry: NavBackStackEntry) {
                         imeAction = ImeAction.Done,
                     ),
                 )
-                if (notesTextFieldState.text.isNotEmpty()) {
-                    TextField(
-                        state = notesTextFieldState,
-                        enabled = if (isEditing) true else false,
-                        label = { Text("Notes") },
-                        textStyle = MaterialTheme.typography.labelLarge,
-                        colors = TextFieldDefaults.colors(
-                            cursorColor = MaterialTheme.colorScheme.primary,
-                            disabledIndicatorColor = Color.Transparent,
-                            focusedIndicatorColor = Color.Transparent,
-                            unfocusedIndicatorColor = Color.Transparent
-                        ),
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        keyboardOptions = KeyboardOptions(
-                            imeAction = ImeAction.Done,
-                        ),
-                    )
-                }
+//                if (notesTextFieldState.text.isNotEmpty()) {
+//                    TextField(
+//                        state = notesTextFieldState,
+//                        enabled = if (isEditing) true else false,
+//                        label = { Text("Notes") },
+//                        textStyle = MaterialTheme.typography.labelLarge,
+//                        colors = TextFieldDefaults.colors(
+//                            cursorColor = MaterialTheme.colorScheme.primary,
+//                            disabledIndicatorColor = Color.Transparent,
+//                            focusedIndicatorColor = Color.Transparent,
+//                            unfocusedIndicatorColor = Color.Transparent
+//                        ),
+//                        modifier = Modifier
+//                            .fillMaxWidth(),
+//                        keyboardOptions = KeyboardOptions(
+//                            imeAction = ImeAction.Done,
+//                        ),
+//                    )
+//                }
             }
             Spacer(modifier = Modifier.weight(1f, fill = true))
             if (isEditing) {

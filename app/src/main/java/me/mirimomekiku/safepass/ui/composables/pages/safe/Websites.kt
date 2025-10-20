@@ -2,6 +2,8 @@ package me.mirimomekiku.safepass.ui.composables.pages.safe
 
 import androidx.activity.compose.LocalActivity
 import androidx.biometric.BiometricManager
+import androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_STRONG
+import androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL
 import androidx.biometric.BiometricPrompt
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -47,7 +49,7 @@ fun WebsitesPage(
     val promptInfo = remember {
         BiometricPrompt.PromptInfo.Builder().setTitle("Authenticate to access credentials")
             .setSubtitle("To view credentials, authenticate.").setAllowedAuthenticators(
-                BiometricManager.Authenticators.BIOMETRIC_STRONG or BiometricManager.Authenticators.DEVICE_CREDENTIAL
+                BIOMETRIC_STRONG or DEVICE_CREDENTIAL
             ).build()
     }
 
@@ -58,7 +60,7 @@ fun WebsitesPage(
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(4.dp), modifier = modifier
     ) {
-        groupedCredentials.forEach { (name, creds) ->
+        groupedCredentials.forEach { (_, creds) ->
             item {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
@@ -84,14 +86,22 @@ fun WebsitesPage(
             items(creds, key = { it.id }) { cred ->
                 FilledTonalButton(
                     onClick = {
-                        val prompt = BiometricPrompt(
-                            activity,
-                            executor,
-                            BiometricCallback(context) {
-                                navController.navigate("view_website/${cred.id}")
-                            })
+                        val biometricManager = BiometricManager.from(context)
+                        when (biometricManager.canAuthenticate(BIOMETRIC_STRONG or DEVICE_CREDENTIAL)) {
+                            BiometricManager.BIOMETRIC_SUCCESS -> {
+                                val prompt = BiometricPrompt(
+                                    activity,
+                                    executor,
+                                    BiometricCallback(context) {
+                                        navController.navigate("view_website/${cred.id}")
+                                    })
 
-                        prompt.authenticate(promptInfo)
+                                prompt.authenticate(promptInfo)
+                            }
+                                else -> {
+                                navController.navigate("view_website/${cred.id}")
+                            }
+                        }
                     },
                     modifier = Modifier.fillMaxWidth(),
                     shape = MaterialTheme.shapes.extraLarge,
