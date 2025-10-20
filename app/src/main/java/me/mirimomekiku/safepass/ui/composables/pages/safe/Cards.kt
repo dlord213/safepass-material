@@ -49,7 +49,7 @@ fun CardsPage(cardCredentials: List<CardCredentials>, modifier: Modifier = Modif
             ).build()
     }
 
-    val groupedCardCredentials = remember(cardCredentials) {
+    val groupedCredentials = remember(cardCredentials) {
         cardCredentials.sortedBy { it.type.lowercase() }.groupBy { it.type }
     }
 
@@ -57,7 +57,7 @@ fun CardsPage(cardCredentials: List<CardCredentials>, modifier: Modifier = Modif
         verticalArrangement = Arrangement.spacedBy(4.dp),
         modifier = modifier
     ) {
-        groupedCardCredentials.forEach { (name, creds) ->
+        groupedCredentials.forEach { (name, creds) ->
             item {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
@@ -71,8 +71,6 @@ fun CardsPage(cardCredentials: List<CardCredentials>, modifier: Modifier = Modif
                     )
                 }
             }
-
-
             items(creds, key = { it.id }) { cred ->
                 FilledTonalButton(
                     onClick = {

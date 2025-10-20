@@ -38,9 +38,7 @@ import me.mirimomekiku.safepass.helpers.BiometricCallback
 import me.mirimomekiku.safepass.ui.compositions.LocalNavController
 
 @Composable
-fun WebsitesPage(
-    websiteCredentials: List<WebsiteCredentials>, modifier: Modifier = Modifier
-) {
+fun WebsitesPage(websiteCredentials: List<WebsiteCredentials>, modifier: Modifier = Modifier) {
     val context = LocalContext.current
     val activity = LocalActivity.current as FragmentActivity
     val navController = LocalNavController.current
@@ -58,7 +56,8 @@ fun WebsitesPage(
     }
 
     LazyColumn(
-        verticalArrangement = Arrangement.spacedBy(4.dp), modifier = modifier
+        verticalArrangement = Arrangement.spacedBy(4.dp),
+        modifier = modifier
     ) {
         groupedCredentials.forEach { (_, creds) ->
             item {
@@ -81,8 +80,6 @@ fun WebsitesPage(
                     )
                 }
             }
-
-
             items(creds, key = { it.id }) { cred ->
                 FilledTonalButton(
                     onClick = {
@@ -98,7 +95,8 @@ fun WebsitesPage(
 
                                 prompt.authenticate(promptInfo)
                             }
-                                else -> {
+
+                            else -> {
                                 navController.navigate("view_website/${cred.id}")
                             }
                         }

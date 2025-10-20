@@ -199,8 +199,6 @@ fun AddCardScreen() {
                 .fillMaxWidth(),
         )
 
-        Text("Detected card type: $cardType", style = MaterialTheme.typography.bodyMedium)
-
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             TextField(
                 state = expiryMonthTextFieldState,
